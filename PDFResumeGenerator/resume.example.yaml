@@ -1,0 +1,89 @@
+# ============================================================================
+#  SAMPLE RESUME (fictional person). Copy to master_resume.yaml and replace
+#  everything with your own content. The layout is fixed in the program.
+#
+#  Rules of thumb
+#   * Quote any value that contains ": " or starts with a special character
+#     (e.g. "P: +1 555 010 0199"). Quoting is always safe.
+#   * Long text can be written on several lines after ">" (folded); line
+#     breaks become spaces, and the program wraps text itself.
+#   * Add / remove / reorder jobs, bullets, schools and skill lines freely.
+#   * Separators ("-" between company and city, " | " between contact items,
+#     the ":" after skill labels, the bullet dots) are added automatically.
+# ============================================================================
+
+name: JOHN DOE
+
+# Shown centered under the name, joined with " | ".
+# Plain text, or  { text: ..., url: ... }  for a clickable, underlined link.
+contact:
+  - New Jersey
+  - 123-456-7890
+  - john.doe@example.com
+  - text: LinkedIn Profile
+    url: https://www.linkedin.com/in/example/
+  - text: GitHub
+    url: https://github.com/example
+
+summary: >
+  Updated summary / objective.
+
+# Most recent first. "location" is optional.
+experience:
+  - company: Company 3
+    location: New York, NY
+    title: Title 3
+    start: Oct 2022
+    end: Present
+    bullets:
+      - >
+        Updated bullet 1
+      - >
+        Updated bullet 2
+      - >
+        Updated bullet 3
+
+  - company: Company 2
+    location: New York, NY
+    title: Title 2
+    start: Oct 2019
+    end: Sep 2022
+    bullets:
+      - >
+        Updated bullet 1
+      - >
+        Updated bullet 2
+      - >
+        Updated bullet 3
+
+  - company: Company 1
+    location: New York, NY
+    title: Title 1
+    start: Sep 2017
+    end: Sep 2019
+    bullets:
+      - >
+        Updated bullet 1
+      - >
+        Updated bullet 2
+      - >
+        Updated bullet 3
+
+# "location" is optional.
+education:
+  - school: State University
+    location: Springfield, IL, USA
+    date: May 2017
+    degree: Master of Science, Computer Science
+
+# Bold label (a ":" is added for you) followed by the items.
+# "items" may be a single string or a list (a list is joined with ", ").
+skills:
+  - label: Languages & ML
+    items: Python, SQL, PyTorch, scikit-learn, Pandas, NumPy; classification, forecasting, NLP, fine-tuning
+  - label: Evaluation
+    items: test set design, benchmarking experiments, regression testing, precision and recall analysis, error review
+  - label: LLM / GenAI
+    items: LangGraph, LangSmith, RAG (FAISS), LLM fine-tuning (LoRA), prompt engineering, tool calling
+  - label: Cloud & Tools
+    items: AWS (SageMaker, Bedrock), Azure, Docker, Git

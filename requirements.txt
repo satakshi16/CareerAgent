@@ -1,0 +1,7 @@
+deepagents>=0.7.23,<0.8
+langgraph-cli[inmem]
+langchain-openai
+langchain-tavily
+reportlab>=4.0,<5
+PyYAML>=6.0,<7
+pytest
