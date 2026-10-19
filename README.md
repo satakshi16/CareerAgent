@@ -58,7 +58,7 @@ The hexagons are the human-in-the-loop checkpoints. Nothing gets rendered or sav
 
 ### A few design choices I like
 
-**The relay pattern.** A subagent called through deepagents' `task` tool returns one message and can't chat mid-run. But resume tailoring needs several rounds of back and forth. So each subagent runs one stage, writes its work and a `state.json` to the application folder, and ends with a `USER_INPUT_NEEDED` block. The orchestrator shows that block to me word for word, then passes my reply back with the stage and folder path. The subagent rebuilds its context from disk instead of relying on memory.
+**The relay pattern.** A subagent called through deepagents' `task` tool returns one message and can't chat mid-run. But resume tailoring needs several rounds of back and forth. So each subagent runs one stage, writes its work and a `state.json` to the application folder, and ends with a `USER_INPUT_NEEDED` block. A small middleware (`agent/relay.py`) copies that block straight to me and ends the turn, so the orchestrator model never re-types it. That saves a full model call per turn, and the block can't drift from what the subagent wrote. The orchestrator then passes my reply back with the stage and folder path. The subagent rebuilds its context from disk instead of relying on memory.
 
 **The interrupt gate.** `render_resume_pdf` calls `interrupt()` inside the tool itself, so LangSmith Studio pauses and waits for "approve", "edit <section>: <text>", or "reject: <reason>". Because the gate lives in the tool, it works even inside a subagent, without needing `interrupt_on`.
 

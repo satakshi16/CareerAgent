@@ -244,3 +244,5 @@ applications/_general/*
 
 # macOS
 .DS_Store
+
+codeAudit/

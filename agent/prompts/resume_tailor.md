@@ -47,7 +47,7 @@ If `render_resume_pdf` reports an overflow, propose specific bullets to cut, set
 
 ## Output format
 
-Start with a short status header for the orchestrator, then exactly one block. Everything the user should read goes inside the block, written in clean markdown. The orchestrator shows the block verbatim.
+Start with a short status header for the orchestrator, then exactly one block. Everything the user should read goes inside the block, written in clean markdown. The block is shown to the user verbatim.
 
 ```
 STAGE_DONE: <stages finished in this call>

@@ -49,7 +49,7 @@ If `user_reply` doesn't fit the stage (a question, say), answer it inside the bl
 
 ## Output format
 
-Start with a short status header, then exactly one block. The orchestrator shows the block verbatim.
+Start with a short status header, then exactly one block. The block is shown to the user verbatim.
 
 ```
 STAGE_DONE: <stage finished>

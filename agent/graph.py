@@ -8,6 +8,7 @@ from deepagents import FilesystemPermission, create_deep_agent  # noqa: E402
 from deepagents.backends import FilesystemBackend  # noqa: E402
 
 from agent.config import AGENTS_MD, MODEL, REPO_ROOT, load_prompt, virtual  # noqa: E402
+from agent.relay import RelayMiddleware  # noqa: E402
 from agent.subagents import SHARED_SKILLS, SUBAGENTS  # noqa: E402
 from agent.tools.applications import create_application, load_application  # noqa: E402
 from agent.tools.search import internet_search, web_extract  # noqa: E402
@@ -36,6 +37,7 @@ agent = create_deep_agent(
     skills=[SHARED_SKILLS],  # orchestrator sees shared skills only
     memory=[virtual(AGENTS_MD)],
     permissions=PERMISSIONS,  # inherited by subagents that don't set their own
+    middleware=[RelayMiddleware()],  # orchestrator only: shows specialist blocks without re-typing
     # No interrupt_on: render_resume_pdf runs its own plain-text approval gate.
     name="career-orchestrator",
 )

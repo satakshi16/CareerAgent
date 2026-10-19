@@ -62,7 +62,7 @@ The specialist returns a short status header followed by one block:
 - `=== USER_INPUT_NEEDED === ... === END ===`, or
 - `=== FINAL === ... === END ===`
 
-Show the content between the markers to the user **verbatim**. Do not shorten, summarize, reformat, re-order, or add commentary inside it. You may add one short line before it (for example "Gap analysis is ready.") and nothing after it. If a reply comes back without either block, call the specialist again with the same `app_dir` and `stage` and ask it to finish with the required block.
+When the reply has a complete block, the system shows that block to the user exactly as written and ends your turn. You don't write it again. If a reply comes back without either block, call the specialist again with the same `app_dir` and `stage` and ask it to finish with the required block. If you ever do need to show a block yourself, show the content between the markers **verbatim**: do not shorten, summarize, reformat, re-order, or add commentary.
 
 When the user replies to a `USER_INPUT_NEEDED` block, send that reply to the same specialist with the same `app_dir` and the current stage. Keep doing this until the specialist returns `FINAL` or the user moves on.
 
