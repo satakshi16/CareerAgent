@@ -6,8 +6,9 @@ outreach-writer (route 3) is not built yet.
 from agent.config import load_prompt
 from agent.tools.applications import load_application, update_application_state
 from agent.tools.career_facts import append_career_fact
-from agent.tools.resume_pdf import render_resume_pdf, validate_resume
+from agent.tools.resume_pdf import check_draft, render_resume_pdf, validate_resume
 from agent.tools.search import internet_search, web_extract
+from agent.tools.stage_context import load_stage_context
 from agent.tools.style_lint import style_lint
 
 SHARED_SKILLS = "/skills/shared/"
@@ -25,8 +26,9 @@ RESUME_TAILOR = {
     ),
     "system_prompt": load_prompt("resume_tailor.md"),
     "tools": [
-        internet_search, web_extract, validate_resume, render_resume_pdf, style_lint,
-        append_career_fact, load_application, update_application_state,
+        load_stage_context, internet_search, web_extract, check_draft, validate_resume,
+        render_resume_pdf, style_lint, append_career_fact, load_application,
+        update_application_state,
     ],
     "skills": [SHARED_SKILLS, RESUME_SKILLS],
 }
@@ -44,7 +46,7 @@ INTERVIEW_COACH = {
     ),
     "system_prompt": load_prompt("interview_coach.md"),
     "tools": [
-        internet_search, web_extract, style_lint, append_career_fact,
+        load_stage_context, internet_search, web_extract, style_lint, append_career_fact,
         load_application, update_application_state,
     ],
     "skills": [SHARED_SKILLS, INTERVIEW_SKILLS],

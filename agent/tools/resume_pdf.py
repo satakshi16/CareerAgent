@@ -11,6 +11,7 @@ import yaml
 from langgraph.types import interrupt
 
 from agent.config import APPLICATIONS_DIR, resolve, virtual
+from agent.tools.style_lint import style_lint
 from resume_generator import generate
 from resume_generator.errors import ResumeError
 
@@ -43,6 +44,12 @@ def validate_resume(yaml_path: str) -> str:
         return _error(exc) if isinstance(exc, ResumeError) else f"ERROR: {exc}"
     return (f"OK: {info['pages']} page, {info['font']} {info['body_size']:g} pt body. "
             f"Fit adjustments: {_fit_notes(info)}.{_warnings(info)}")
+
+
+def check_draft(yaml_path: str) -> str:
+    """Run style_lint and validate_resume on a resume YAML draft in one call. Both
+    must pass (STYLE: CLEAN and FIT: OK) before you show the draft to the user."""
+    return f"STYLE: {style_lint(yaml_path)}\nFIT: {validate_resume(yaml_path)}"
 
 
 APPROVE_WORDS = {"approve", "approved", "yes", "y", "ok", "okay", "lgtm", "ship it", "looks good"}

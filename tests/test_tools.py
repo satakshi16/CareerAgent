@@ -219,6 +219,60 @@ def test_internet_search_passes_include_domains(monkeypatch):
     assert "include_domains" not in seen
 
 
+def _fake_extract(monkeypatch, raw):
+    class Fake:
+        def invoke(self, args):
+            return raw
+
+    monkeypatch.setattr(search, "_extract_client", lambda: Fake())
+
+
+def test_web_extract_short_page_returned_whole(monkeypatch):
+    _fake_extract(monkeypatch, {"results": [{"raw_content": "Senior ML Engineer\n\nPython, RAG."}]})
+    out = search.web_extract("https://jobs.example.com/1")
+    assert out == "Source: https://jobs.example.com/1\n\nSenior ML Engineer\n\nPython, RAG."
+
+
+def test_web_extract_collapses_whitespace_keeps_paragraphs(monkeypatch):
+    _fake_extract(monkeypatch, {"results": [{"raw_content": "Title   \t here  \n\n\n\n\nBody\r\n  line"}]})
+    out = search.web_extract("https://x.com")
+    assert out.endswith("Title here\n\nBody\nline")
+
+
+def test_web_extract_caps_long_page(monkeypatch):
+    _fake_extract(monkeypatch, {"results": [{"raw_content": "word " * 10_000}]})  # 49,999 chars after cleanup
+    out = search.web_extract("https://x.com")
+    body = out.split("\n\n", 1)[1]
+    assert body.endswith("[truncated: 12000 of 49999 chars]")
+    assert len(body) < 12_100
+    big = search.web_extract("https://x.com", max_chars=40_000)
+    assert big.endswith("[truncated: 40000 of 49999 chars]")
+
+
+def test_web_extract_failures_are_text(monkeypatch):
+    _fake_extract(monkeypatch, {"results": [], "failed_results": ["blocked"]})
+    assert search.web_extract("https://x.com") == "EXTRACT FAILED for https://x.com: ['blocked']"
+
+
+def test_tavily_calls_time_out_as_text(monkeypatch):
+    import threading
+    release = threading.Event()
+
+    class Slow:
+        def invoke(self, args):
+            release.wait(5)
+            return {"results": []}
+
+    monkeypatch.setattr(search, "TAVILY_TIMEOUT_S", 0.05)
+    monkeypatch.setattr(search, "_extract_client", lambda: Slow())
+    monkeypatch.setattr(search, "_search_client", lambda: Slow())
+    try:
+        assert search.web_extract("https://x.com") == "EXTRACT FAILED: timeout"
+        assert search.internet_search("x") == "SEARCH FAILED: timeout"
+    finally:
+        release.set()
+
+
 # ---------- applications ----------
 
 @pytest.fixture

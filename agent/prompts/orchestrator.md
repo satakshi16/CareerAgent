@@ -55,7 +55,7 @@ user_reply: |
   <the user's latest message, copied word for word, or "(none)" for the first call>
 ```
 
-Read `state.json` with `load_application` before each call so `stage` is current. Pass the user's words unchanged. Don't summarize or interpret them.
+Take `stage` from the `STATE:` line of the specialist's last reply for this application in this thread. Call `load_application` only when there is no such reply (a new thread, or switching to another application) or that line is missing. `create_application` already returns `state.json`, so no extra call is needed after it. Pass the user's words unchanged. Don't summarize or interpret them.
 
 The specialist returns a short status header followed by one block:
 
